@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./search-destinies-component.component.css']
 })
 export class SearchDestiniesComponentComponent {
-
+  apiURL = 'd';
 }
+
