@@ -63,3 +63,10 @@ docker image ls
 docker push marcocouzin/fiap_travel_fed:latest
 ```
 ![img_4.png](img_4.png)
+
+
+#
+## Step Three - Run from Docker Hub
+```
+docker run --name dk_fiap_fed_travel -p 8030:80 -d marcocouzin/fiap_travel_fed:latest
+```
