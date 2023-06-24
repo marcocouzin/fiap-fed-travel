@@ -40,7 +40,7 @@ export class SearchDestiniesComponentComponent {
         tap(_ => this.isLoading.next(true)),
         debounceTime(500),
         distinctUntilChanged(),
-        switchMap((term: string) => this.destinyService.getDestinies(term)),
+        switchMap((term: string) => this.destinyService.getDestinies(term, JSON.parse(JSON.stringify(this.config$)).apiURL)),
         tap(_ => this.isLoading.next(false)),
       );
   }
@@ -48,15 +48,6 @@ export class SearchDestiniesComponentComponent {
   search(): void {
     console.log('searching for: ' + this.searchForm.controls.destiny.value);
     this.searchTerms.next(this.searchForm.controls.destiny.value || '');
-  }
-
-
-  searchDestiny() {
-    console.log(this.searchForm.controls.destiny.value);
-
-    if (this.searchForm.controls.destiny.value != '') {
-      this.destinies$ = this.destinyService.getDestinies(this.searchForm.controls.destiny.value || '');
-    }
   }
 }
 

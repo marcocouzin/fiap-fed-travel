@@ -10,7 +10,7 @@ import {DestinationOut} from "../../model/destiny/destination-out";
 export class DestinyService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
   ) {
   }
 
@@ -24,34 +24,18 @@ export class DestinyService {
   }
 
 
-
-  getDestinies(term: string): Observable<DestinationOut[]> {
+  getDestinies(term: string, urlBFF: string): Observable<DestinationOut[]> {
     if (!term.trim()) {
       // if not search term, return empty array.
       return of([]);
     }
 
-    return this.http.get<DestinationOut[]>('http://localhost:8081/travel/destiny/?'.replace('?', term), this.httpOptions)
+    return this.http.get<DestinationOut[]>(urlBFF.replace('?', term), this.httpOptions)
       .pipe(
         tap(_ => DestinyService.log(`found destinys matching "${term}"`)),
         catchError(this.handleError<DestinationOut[]>('searchDestiny', []))
       );
   }
-
-
-  // getDestinies(term: string, destinyUrl: string): Observable<DestinationOut[]> {
-  //   if (!term.trim()) {
-  //     // if not search term, return empty array.
-  //     return of([]);
-  //   }
-  //
-  //
-  //   this.http.get<DestinationOut[]>(destinyUrl.replace('?', term), this.httpOptions)
-  //     .subscribe(ret => {
-  //       console.log(ret);
-  //     });
-  // }
-
 
   private handleError<T>(operation = 'operation', result?: any[]) {
     return (error: any): Observable<T> => {
