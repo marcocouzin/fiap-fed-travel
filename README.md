@@ -1,27 +1,65 @@
-# FiapFedTravel
+# FED FIAP Travel
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
+## First Step - Generate a Docker image
 
-## Development server
+1. Download the source code in the Cloud9
+```
+git clone https://github.com/marcocouzin/fiap-fed-travel.git
+```
+2. Access the application directory
+```
+cd fiap-fed-travel/
+```
+3. Create the container image
+```
+docker build -t img_fiap_fed_travel .
+```
+4. Check if the image was created
+```
+docker images
+```
+![img.png](img.png)
+5. Run the container
+```
+docker run --name dk_fiap_fed_travel -p 8030:80 -d img_fiap_fed_travel
+```
+6. Check if the container is running
+```
+docker ps
+```
+![img_1.png](img_1.png)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+7. Test the solution
+- Get the external IP
+```
+../ip
+```
+8. On you browser, access
+```
+http://<ip>:8030
+```
+![img_2.png](img_2.png)
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+#
+## Step Two - Publish the image on Docker Hub
+1. Sign in Docker Hub
+```
+docker login
+```
+2. Prepare the image to be published
+```
+docker tag img_fiap_fed_travel:latest marcocouzin/fiap_travel_fed:latest
+```
+3. Check the tag image
+```
+docker image ls
+```
+![img_3.png](img_3.png)
+4. Publish the image to Docker Hub
+```
+docker push marcocouzin/fiap_travel_fed:latest
+```
+![img_4.png](img_4.png)
