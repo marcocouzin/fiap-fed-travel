@@ -8,6 +8,15 @@ import {RouterOutlet} from "@angular/router";
 import {AppConfigService} from "./services/config/app-config-service.service";
 import {HttpClientModule} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatInputModule} from "@angular/material/input";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatButtonModule} from "@angular/material/button";
+import {MatCardModule} from "@angular/material/card";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 const appInitializerFn = (appConfig: AppConfigService) => {
   return (): Observable<boolean> => {
@@ -24,7 +33,17 @@ const appInitializerFn = (appConfig: AppConfigService) => {
     BrowserModule,
     AppRoutingModule,
     RouterOutlet,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MatSlideToggleModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCardModule,
+    MatGridListModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AppConfigService,

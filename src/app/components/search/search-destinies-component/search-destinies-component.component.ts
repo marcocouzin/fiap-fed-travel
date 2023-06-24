@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {AppConfigService, IConfig} from "../../../services/config/app-config-service.service";
-import {Observable} from "rxjs";
+import {debounceTime, distinctUntilChanged, Observable, Subject, switchMap, tap} from "rxjs";
+import {FormControl, FormGroup} from "@angular/forms";
+import {DestinyService} from "../../../services/search/destiny.service";
+import {DestinationOut} from "../../../model/destiny/destination-out";
 
 @Component({
   selector: 'app-search-destinies-component',
@@ -8,15 +11,52 @@ import {Observable} from "rxjs";
   styleUrls: ['./search-destinies-component.component.css']
 })
 export class SearchDestiniesComponentComponent {
-  config$: Observable<IConfig> | undefined;
 
-  constructor(private environment: AppConfigService) {}
+  searchForm = new FormGroup({
+    destiny: new FormControl('')
+  });
+
+
+  config$: Observable<IConfig> | undefined;
+  destinies$: Observable<DestinationOut[]> | undefined;
+  private searchTerms = new Subject<string>();
+  isLoading = new Subject<boolean>();
+
+
+  constructor(
+    private environment: AppConfigService,
+    private destinyService: DestinyService,
+  ) {
+  }
 
   ngOnInit(): void {
     this.environment.config$.subscribe(val => {
       this.config$ = JSON.parse(JSON.stringify(val));
       console.log(JSON.parse(JSON.stringify(this.config$)).apiURL);
     })
+
+    this.destinies$ = this.searchTerms
+      .pipe(
+        tap(_ => this.isLoading.next(true)),
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap((term: string) => this.destinyService.getDestinies(term)),
+        tap(_ => this.isLoading.next(false)),
+      );
+  }
+
+  search(): void {
+    console.log('searching for: ' + this.searchForm.controls.destiny.value);
+    this.searchTerms.next(this.searchForm.controls.destiny.value || '');
+  }
+
+
+  searchDestiny() {
+    console.log(this.searchForm.controls.destiny.value);
+
+    if (this.searchForm.controls.destiny.value != '') {
+      this.destinies$ = this.destinyService.getDestinies(this.searchForm.controls.destiny.value || '');
+    }
   }
 }
 

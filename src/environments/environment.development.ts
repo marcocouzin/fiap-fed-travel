@@ -1,3 +1,4 @@
 export const environment = {
-  apiURL: 'http://localhost:8080/dev/api'
+  production: false,
+  configUrl: "https://demo5467968.mockable.io/"
 };

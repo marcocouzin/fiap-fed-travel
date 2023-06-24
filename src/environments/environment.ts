@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiRoot: ''
+  configUrl: "https://demo5467968.mockable.io/"
 };

@@ -1,2 +1,33 @@
-<p>search-destinies-component works!</p>
-{{config$}}
+<div class="container">
+  <form [formGroup]="searchForm">
+    <mat-grid-list cols="4" rowHeight="40px" class="full-width">
+      <mat-grid-tile [colspan]="3">
+        <mat-form-field appearance="outline">
+          <input matInput
+                 type="text"
+                 placeholder="Type your destiny"
+                 formControlName = destiny
+                 [matAutocomplete]="auto"
+                 (input)="search()"
+          >
+          <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-optgroup *ngFor="let tipos of destinies$ | async" [label]="tipos.type">
+              <mat-option *ngFor="let destinos of tipos.subgroup" value="{{destinos.name['pt-BR']}}">
+                {{destinos.name['pt-BR']}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-autocomplete>
+        </mat-form-field>
+      </mat-grid-tile>
+      <mat-grid-tile [colspan]="1">
+        <div *ngIf="isLoading | async">
+          <mat-spinner color="primary" [diameter]="30" />
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>
+
+
+
+
